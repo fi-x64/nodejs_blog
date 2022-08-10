@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-    app.use(
+app.use(
     express.urlencoded({
         extended: true,
     }),
