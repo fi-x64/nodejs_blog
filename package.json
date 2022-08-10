@@ -23,7 +23,7 @@
     "url": "https://github.com/fi-x64/nodejs_blog/issues"
   },
   "homepage": "https://github.com/fi-x64/nodejs_blog#readme",
-  "lint-stage": {
+  "lint-staged": {
     "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --tab-width 4 --write"
   },
   "dependencies": {
