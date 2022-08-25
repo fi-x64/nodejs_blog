@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const handlebars = require('express-handlebars');
+const SortMiddleware = require('./app/middlewares/SortMiddleware');
 const methodOverride = require('method-override');
 // import { engine } from 'express-handlebars';
 const app = express();
@@ -16,6 +17,9 @@ db.connect();
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(methodOverride('_method'));
+
+// Custom middlewares
+app.use(SortMiddleware);
 
 app.use(
     express.urlencoded({
@@ -35,6 +39,24 @@ app.engine(
         defaultLayout: 'main',
         helpers: {
             sum: (a, b) => a + b,
+            sortable: (filed, sort) => {
+                const sortType = filed === sort.column ? sort.type : 'default';
+                const icons = {
+                    default: 'oi oi-elevator',
+                    asc: 'oi oi-sort-ascending',
+                    desc: 'oi oi-sort-descending',
+                };
+                const types = {
+                    default: 'desc',
+                    asc: 'desc',
+                    desc: 'asc',
+                };
+                const icon = icons[sortType];
+                const type = types[sortType];
+                return `<a href="?_sort&column=${filed}&type=${type}">
+                <span class="${icon}"></span>
+              </a>`;
+            },
         },
     }),
 );
